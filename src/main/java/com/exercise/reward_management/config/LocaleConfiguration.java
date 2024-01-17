@@ -14,7 +14,7 @@ public class LocaleConfiguration {
 
 
     @Value("${local.lang.path}")
-    private String LOCAL_LANGUAGE_PATH;
+    private String LANGUAGE_PATH;
 
     @Value("${local.lang.default.value}")
     private String DEFAULT_LANGUAGE;
@@ -29,7 +29,7 @@ public class LocaleConfiguration {
     @Bean
     public ReloadableResourceBundleMessageSource messageSource(){
         ReloadableResourceBundleMessageSource rs = new ReloadableResourceBundleMessageSource();
-        rs.setBasenames(LOCAL_LANGUAGE_PATH);
+        rs.setBasenames(LANGUAGE_PATH);
         rs.setDefaultEncoding("UTF-8");
         rs.setUseCodeAsDefaultMessage(true);
         return rs;
