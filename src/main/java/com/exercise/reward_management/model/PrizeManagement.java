@@ -19,6 +19,6 @@ public class PrizeManagement {
     private Long id;
     @Column(name = "PHONE_NUMBER", length = 9)
     private String phoneNumber;
-    @Column(name = "COUNT")
+    @Column(name = "EVENT_COUNT")
     private int count;
 }

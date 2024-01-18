@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @NoArgsConstructor
@@ -23,4 +24,8 @@ public class Gift {
     private String userReceives;
     @Column(name = "STATUS")
     private int status;
+    @Column(name = "CREATE_TIME")
+    private Date createTime;
+    @Column(name = "USER_TIME")
+    private Date userTime;
 }
