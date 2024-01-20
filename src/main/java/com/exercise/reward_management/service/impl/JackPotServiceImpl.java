@@ -7,6 +7,7 @@ import com.exercise.reward_management.dto.DataResponse;
 import com.exercise.reward_management.model.PrizeManagement;
 import com.exercise.reward_management.repository.PrizeManagermentRepository;
 import com.exercise.reward_management.service.JackPotService;
+import com.exercise.reward_management.utils.ConvertUtil;
 import com.exercise.reward_management.utils.Translator;
 import com.exercise.reward_management.utils.Validate;
 import lombok.extern.log4j.Log4j2;
@@ -30,7 +31,7 @@ public class JackPotServiceImpl implements JackPotService {
     @Override
     public ResponseEntity<DataResponse> checkJackPot(String phoneNumber) {
         try {
-            if (Validate.isValidPhoneNumber(phoneNumber)) {
+            if (!Validate.isValidPhoneNumber(phoneNumber)) {
                 return ResponseEntity.status(HttpStatus.OK).body(
                         DataResponse
                                 .builder()
@@ -39,10 +40,11 @@ public class JackPotServiceImpl implements JackPotService {
                                 .data(null).build()
                 );
             }
+            String phone = ConvertUtil.formatMobileNumber(Validate.trim(phoneNumber), ConvertUtil.MOBILE_9X);
             boolean isWinner = spinWheel();
             String result = CommonConstant.LOSE;
             if (isWinner) {
-                saveRecord(phoneNumber);
+                saveRecord(phone);
                 result = CommonConstant.WIN;
             }
 

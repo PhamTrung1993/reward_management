@@ -8,7 +8,9 @@ import com.exercise.reward_management.model.PrizeManagement;
 import com.exercise.reward_management.repository.GiftRepository;
 import com.exercise.reward_management.repository.PrizeManagermentRepository;
 import com.exercise.reward_management.service.RewardManagementService;
+import com.exercise.reward_management.utils.ConvertUtil;
 import com.exercise.reward_management.utils.Translator;
+import com.exercise.reward_management.utils.Validate;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,8 +33,17 @@ public class RewardManagementServiceImpl implements RewardManagementService {
     @Override
     public ResponseEntity<DataResponse> receiveReward(String phoneNumber){
         try {
-
-            Optional<PrizeManagement> prizeManagermentOpt = prizeManagermentRepository.findByPhoneNumber(phoneNumber);
+            if (!Validate.isValidPhoneNumber(phoneNumber)) {
+                return ResponseEntity.status(HttpStatus.OK).body(
+                        DataResponse
+                                .builder()
+                                .errorCode(ErrorConstant.VALIDATE_ERROR_CODE)
+                                .message(Translator.toLocale(MessageConstants.FORMAT_PHONE_NUMBER))
+                                .data(null).build()
+                );
+            }
+            String phone = ConvertUtil.formatMobileNumber(Validate.trim(phoneNumber), ConvertUtil.MOBILE_9X);
+            Optional<PrizeManagement> prizeManagermentOpt = prizeManagermentRepository.findByPhoneNumber(phone);
             if (!prizeManagermentOpt.isPresent()) {
                 return ResponseEntity.status(HttpStatus.OK).body(
                         DataResponse
@@ -52,7 +63,7 @@ public class RewardManagementServiceImpl implements RewardManagementService {
                                 .data(null).build()
                 );
             }
-            updateGift(giftOpt.get(), phoneNumber);
+            updateGift(giftOpt.get(), phone);
             updateRewardManagement(prizeManagermentOpt.get());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
                     DataResponse

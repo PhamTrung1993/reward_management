@@ -1,5 +1,6 @@
 package com.exercise.reward_management.utils;
 
+import com.google.common.base.CharMatcher;
 import lombok.extern.log4j.Log4j2;
 
 import java.util.regex.Matcher;
@@ -20,5 +21,12 @@ public class Validate {
             log.error("VALIDATE PhoneNumber: " + e.getMessage(), phoneNumber);
             return false;
         }
+    }
+
+    public static String trim(String needToTrimString) {
+        if (needToTrimString == null) {
+            return "";
+        }
+        return CharMatcher.whitespace().trimFrom(needToTrimString);
     }
 }
