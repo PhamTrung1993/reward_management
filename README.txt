@@ -10,7 +10,7 @@ Dưới đây là hướng dẫn cách bắt đầu sử dụng dự án/dịch 
 ### Yêu Cầu Hệ Thống
 - Java 11
 - Maven
-
+- Database: oracle
 ### Cài Đặt
 
 1. Clone dự án từ kho lưu trữ:
